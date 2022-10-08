@@ -1,5 +1,5 @@
 int rst=7;
-int bt=12;
+int bt=2;
 int count=0;
 char mov[400];
 int num[400];
@@ -8,30 +8,36 @@ int bcount=0;
 int lcount=0;
 int rcount=0;
 int fcount=0;
-int led1=9;
-int led2=6;
-int led3=5;
-int led4=4;
+#define ls A0
+#define rs A1
+int L1=11;
+int L2=12;
+int R1=9;
+int R2=10;
 //int led=13;
 char val;
 int flag=0;
 void setup() {
   // put your setup code here, to run once:
+pinMode(ls,OUTPUT);
+pinMode(rs,OUTPUT);
+analogWrite(ls,255);
+analogWrite(rs,255);
 digitalWrite(rst,HIGH);
-pinMode(led1,OUTPUT);
-pinMode(led2,OUTPUT);
-pinMode(led3,OUTPUT);
-pinMode(led4,OUTPUT);
+pinMode(L1,OUTPUT);
+pinMode(L2,OUTPUT);
+pinMode(R1,OUTPUT);
+pinMode(R2,OUTPUT);
 delay(200);
 pinMode(bt,OUTPUT);
 pinMode(rst,OUTPUT);
 digitalWrite(bt,HIGH);
 pinMode(LED_BUILTIN,OUTPUT);
 digitalWrite(LED_BUILTIN,LOW);
-digitalWrite(led1,LOW);
-pinMode(led2,LOW);
-pinMode(led3,LOW);
-pinMode(led4,LOW);
+digitalWrite(L1,LOW);
+pinMode(L2,LOW);
+pinMode(R1,LOW);
+pinMode(R2,LOW);
 Serial.begin(9600);
 }
 
@@ -269,36 +275,32 @@ void loop() {
       exit(0);
     }
     else if(val=='L'){
-      digitalWrite(led1,HIGH);
+      left();
       
       
     }
     
     else if(val=='F'){
-      digitalWrite(led2,HIGH);
+      forward();
       
       
     }
     
     else if(val=='B'){
-      digitalWrite(led3,HIGH);
+      backward();
       
       
     }
     
     else if(val=='R'){
-      digitalWrite(led4,HIGH);
+      right();
       
       
     }
     
 
     else if(val=='S'){
-       digitalWrite(led1,LOW);
-       
-       digitalWrite(led2,LOW);
-       digitalWrite(led3,LOW);
-       digitalWrite(led4,LOW);
+       Stop();
       }
 
 }
@@ -312,37 +314,70 @@ void arr(char b[],int c[]){
     if(b[i]=='L'){
       for(int j=0;j<c[i];j++){
         delay(27);
-        digitalWrite(led1,HIGH);
+        left();
       } 
       }
     else if(b[i]=='F'){
       for(int j=0;j<c[i];j++){
         delay(27);
-        digitalWrite(led2,HIGH);
+        forward();
       } 
       }
       
     else if(b[i]=='B'){
       for(int j=0;j<c[i];j++){
         delay(27);
-        digitalWrite(led3,HIGH);
+        backward();
       } 
       }
     else if(b[i]=='R'){
       for(int j=0;j<c[i];j++){
         delay(27);
-        digitalWrite(led4,HIGH);
+        right();
       } 
       }
     else if(b[i]=='S'){
       for(int j=0;j<c[i];j++){
         delay(27);
-        digitalWrite(led1,LOW);
-        digitalWrite(led2,LOW);
-        digitalWrite(led3,LOW);
-        digitalWrite(led4,LOW);
+        Stop();
       } 
       }
     }
 digitalWrite(rst,LOW);
   }
+
+  void forward(){
+    digitalWrite(L1,LOW);
+    digitalWrite( L2 ,HIGH);
+    digitalWrite( R1 ,HIGH);
+    digitalWrite(R2 ,LOW);
+    
+    }
+  void backward(){
+    digitalWrite(L1,HIGH);
+    digitalWrite( L2 ,LOW);
+    digitalWrite( R1 ,LOW);
+    digitalWrite(R2 ,HIGH
+    );
+    }
+
+   void right(){
+    digitalWrite(L1,HIGH);
+    digitalWrite( L2 ,LOW);
+    digitalWrite( R1 ,LOW);
+    digitalWrite(R2 ,LOW);
+    }
+
+   void left(){
+    digitalWrite(L1,LOW);
+    digitalWrite(L2,LOW);
+    digitalWrite(R1,HIGH);
+    digitalWrite(R2,LOW);
+    }
+
+   void Stop(){
+    digitalWrite(L1,LOW);
+    digitalWrite(L2,LOW);
+    digitalWrite(R1,LOW);
+    digitalWrite(R2,LOW);
+    } 
